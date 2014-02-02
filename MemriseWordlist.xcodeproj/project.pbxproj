@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC6D4012189E80CC00E9887F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6D4011189E80CC00E9887F /* main.cpp */; };
 		AC6D4014189E80CC00E9887F /* MemriseWordlist.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */; };
+		AC6D401B189E92CF00E9887F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6D401A189E92CF00E9887F /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		AC6D400E189E80CC00E9887F /* MemriseWordlist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MemriseWordlist; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC6D4011189E80CC00E9887F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MemriseWordlist.1; sourceTree = "<group>"; };
+		AC6D401A189E92CF00E9887F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		AC6D401D189E976600E9887F /* ezOptionParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ezOptionParser.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC6D401B189E92CF00E9887F /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +48,7 @@
 		AC6D4005189E80CC00E9887F = {
 			isa = PBXGroup;
 			children = (
+				AC6D401A189E92CF00E9887F /* libxml2.dylib */,
 				AC6D4010189E80CC00E9887F /* MemriseWordlist */,
 				AC6D400F189E80CC00E9887F /* Products */,
 			);
@@ -60,10 +65,19 @@
 		AC6D4010189E80CC00E9887F /* MemriseWordlist */ = {
 			isa = PBXGroup;
 			children = (
+				AC6D401F189E977D00E9887F /* ez */,
 				AC6D4011189E80CC00E9887F /* main.cpp */,
 				AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */,
 			);
 			path = MemriseWordlist;
+			sourceTree = "<group>";
+		};
+		AC6D401F189E977D00E9887F /* ez */ = {
+			isa = PBXGroup;
+			children = (
+				AC6D401D189E976600E9887F /* ezOptionParser.hpp */,
+			);
+			name = ez;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +209,11 @@
 		AC6D4018189E80CC00E9887F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/libxml2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -202,6 +221,11 @@
 		AC6D4019189E80CC00E9887F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/libxml2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
