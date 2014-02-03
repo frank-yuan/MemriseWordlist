@@ -16,6 +16,8 @@ using namespace std;
 class IDictionary
 {
 public:
+    IDictionary(){};
+    virtual ~IDictionary(){};
     virtual string GetExplanations(string word) = 0;
     virtual string GetPronunciation(string word) = 0;
 };

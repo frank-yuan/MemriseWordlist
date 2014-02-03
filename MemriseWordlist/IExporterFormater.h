@@ -15,6 +15,8 @@ using namespace std;
 class IExportFormater
 {
 public:
+    IExportFormater(){};
+    virtual ~IExportFormater(){};
     virtual string GetExportLine(string word, string explanation, string pronunciation = "") = 0;
 };
 
