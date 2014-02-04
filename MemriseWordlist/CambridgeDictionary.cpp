@@ -5,9 +5,10 @@
 //  Created by YuanXuan on 2/3/14.
 //  Copyright (c) 2014 FrankY. All rights reserved.
 //
-#include <curl/curl.h>
+
+#include <libxml2/libxml/parser.h>
 #include "CambridgeDictionary.h"
-#include "htmltitle.cpp"
+#include "Util.h"
 
 
 #ifdef _MSC_VER
