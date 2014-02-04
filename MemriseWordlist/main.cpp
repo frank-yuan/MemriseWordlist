@@ -18,7 +18,13 @@
 using namespace ez;
 static const char* usage = "Usage: %s <words filename>\n";
 
-
+std::string& rtrim(std::string& str) {
+    size_t endpos = str.find_last_not_of("\r\n");
+    if(endpos != std::string::npos) {
+        str.substr(0,endpos+1).swap(str);
+    }
+    return str;
+}
 int main(int argc, const char * argv[])
 {
 
@@ -52,15 +58,31 @@ int main(int argc, const char * argv[])
         std::cout << "Can not write to new file!";
         return 0;
     }
-    
+    unsigned line_count = std::count(std::istreambuf_iterator<char>(ifile),
+               std::istreambuf_iterator<char>(), '\n');
+
+    fprintf(stdout, "%d words needs to be quried.\n", line_count);
+    ifile.seekg(0);
     IDictionary* dic = new CambridgeDictionary();
     IExportFormater* formatExporter = new MemriseExportFormater();
     std::string strLine;
     try{
-        while (ifile >> strLine)
+        int i = 0;
+//        while (ifile >> strLine)
+        while(std::getline(ifile, strLine))
         {
-            string explanation = formatExporter->GetExportLine(strLine, dic->GetExplanations(strLine));
-            ofile << explanation << std::endl;
+            strLine = rtrim(strLine);
+            fprintf(stdout, "[%d/%d]%s..........", ++i, line_count, strLine.c_str());
+            string explanation = dic->GetExplanations(strLine);
+            if (explanation.length() > 0)
+            {
+                ofile << formatExporter->GetExportLine(strLine, explanation) << std::endl;
+                fprintf(stdout, "[SUCCESS!]\n");
+            }
+            else
+            {
+                fprintf(stdout, "[FAILED]\n");
+            }
         }
     } catch (int e) {
         std::cout << "Write file error with error code:" << e;

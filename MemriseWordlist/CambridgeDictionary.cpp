@@ -181,7 +181,10 @@ string CambridgeDictionary::GetExplanations(string word)
 {
     std::string htmlBuffer;
     std::string explanation;
-    std::string url("dictionary.cambridge.org/dictionary/british/");
+    
+    std::replace_if(word.begin() , word.end() ,
+                    [] (const char& c) { return std::isspace(c) ;},'+');
+    std::string url("dictionary.cambridge.org/search/british/direct/?q=");
     url += word;
     if (GetHTMLByURL(url, htmlBuffer))
     {
