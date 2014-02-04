@@ -10,7 +10,6 @@
 		AC4E939118A07F7B0045FE18 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4E939018A07F7B0045FE18 /* libcurl.4.dylib */; };
 		AC4E939618A12E700045FE18 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC4E939418A12E700045FE18 /* Util.cpp */; };
 		AC6D4012189E80CC00E9887F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6D4011189E80CC00E9887F /* main.cpp */; };
-		AC6D4014189E80CC00E9887F /* MemriseWordlist.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */; };
 		AC6D401B189E92CF00E9887F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6D401A189E92CF00E9887F /* libxml2.dylib */; };
 		ACCC3FCF189FE347009EF2BD /* CambridgeDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACCC3FCD189FE347009EF2BD /* CambridgeDictionary.cpp */; };
 		ACCC3FD2189FE4EC009EF2BD /* MemriseExportFormater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACCC3FD0189FE4EC009EF2BD /* MemriseExportFormater.cpp */; };
@@ -23,7 +22,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				AC6D4014189E80CC00E9887F /* MemriseWordlist.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -35,7 +33,6 @@
 		AC4E939518A12E700045FE18 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		AC6D400E189E80CC00E9887F /* MemriseWordlist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MemriseWordlist; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC6D4011189E80CC00E9887F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MemriseWordlist.1; sourceTree = "<group>"; };
 		AC6D401A189E92CF00E9887F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		AC6D401D189E976600E9887F /* ezOptionParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ezOptionParser.hpp; sourceTree = "<group>"; };
 		ACCC3FCB189FE133009EF2BD /* IDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDictionary.h; sourceTree = "<group>"; };
@@ -84,7 +81,6 @@
 				AC4E939518A12E700045FE18 /* Util.h */,
 				AC6D401F189E977D00E9887F /* ez */,
 				AC6D4011189E80CC00E9887F /* main.cpp */,
-				AC6D4013189E80CC00E9887F /* MemriseWordlist.1 */,
 				ACCC3FCB189FE133009EF2BD /* IDictionary.h */,
 				ACCC3FCC189FE14E009EF2BD /* IExporterFormater.h */,
 				ACCC3FCD189FE347009EF2BD /* CambridgeDictionary.cpp */,
