@@ -18,7 +18,7 @@ using namespace ez;
 static const char* usage = "usage: MemriseWorldlist <src filename>";
 
 
-int main(int argc, const char * argv[])
+int mainMine(int argc, const char * argv[])
 {
 
     ezOptionParser opt;
@@ -55,11 +55,11 @@ int main(int argc, const char * argv[])
     IExportFormater* formatExporter = new MemriseExportFormater();
     std::string strLine;
     try{
-    while (ifile >> strLine)
-    {
-        string explanation = formatExporter->GetExportLine(strLine, dic->GetExplanations(strLine));
-        ofile << explanation << std::endl;
-    }
+        while (ifile >> strLine)
+        {
+            string explanation = formatExporter->GetExportLine(strLine, dic->GetExplanations(strLine));
+            ofile << explanation << std::endl;
+        }
     } catch (int e) {
         std::cout << "Write file error with error code:" << e;
        
@@ -69,9 +69,6 @@ int main(int argc, const char * argv[])
     delete dic;
     delete formatExporter;
     
-    
-    // insert code here...
-    //std::cout << "Hello, World!\n" << srcFileName;
     return 0;
 }
 

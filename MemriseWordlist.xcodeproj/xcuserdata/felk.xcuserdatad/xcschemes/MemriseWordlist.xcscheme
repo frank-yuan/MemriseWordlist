@@ -60,6 +60,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "/Users/felk/inFile.txt"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "www.baidu.com"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
