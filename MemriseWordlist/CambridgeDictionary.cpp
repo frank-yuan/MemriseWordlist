@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 FrankY. All rights reserved.
 //
 
-#include <libxml2/libxml/parser.h>
+#include <libxml/HTMLparser.h>
 #include "CambridgeDictionary.h"
 #include "Util.h"
 

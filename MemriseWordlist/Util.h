@@ -11,6 +11,6 @@
 
 #include <iostream>
 
-static bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer);
+bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer);
 
 #endif /* defined(__MemriseWordlist__Util__) */

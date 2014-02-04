@@ -16,11 +16,6 @@
 #include "Util.h"
 
 //
-//  Case-insensitive string comparison
-//
-
-
-//
 //  libcurl variables for error strings and returned data
 
 static char errorBuffer[CURL_ERROR_SIZE];
@@ -101,7 +96,7 @@ static bool init(CURL *&conn,const char *url, std::string& htmlBuff)
     return true;
 }
 
-static bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer)
+bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer)
 {
     CURL *conn = NULL;
     CURLcode code;
@@ -117,7 +112,6 @@ static bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer)
     {
         fprintf(stderr, "Connection initializion failed\n");
         
-        //exit(EXIT_FAILURE);
         return false;
     }
     
@@ -130,7 +124,6 @@ static bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer)
     {
         fprintf(stderr, "Failed to get '%s' [%s]\n", url.c_str(), errorBuffer);
         
-        //exit(EXIT_FAILURE);
         return false;
     }
     
