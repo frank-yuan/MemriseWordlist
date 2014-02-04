@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 FrankY. All rights reserved.
 //
 
-
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <libxml2/libxml/xpath.h>
@@ -15,17 +16,18 @@
 #include "CambridgeDictionary.h"
 
 using namespace ez;
-static const char* usage = "usage: MemriseWorldlist <src filename>";
+static const char* usage = "Usage: %s <words filename>\n";
 
 
-int mainMine(int argc, const char * argv[])
+int main(int argc, const char * argv[])
 {
 
     ezOptionParser opt;
-    if (argc <2)
+    if (argc != 2)
     {
-        std::cout << usage;
-        return 0;
+        fprintf(stderr, usage, argv[0]);
+        
+        exit(EXIT_FAILURE);
     }
     // check word flie name
     std::string srcFileName = argv[argc - 1];

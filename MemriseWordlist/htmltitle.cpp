@@ -39,23 +39,6 @@
 //  Case-insensitive string comparison
 //
 
-#ifdef _MSC_VER
-#define COMPARE(a, b) (!stricmp((a), (b)))
-#else
-#define COMPARE(a, b) (!strcasecmp((a), (b)))
-#endif
-
-//
-//  libxml callback context structure
-//
-
-struct Context
-{
-  Context(): addTitle(false) { }
-
-  bool addTitle;
-  std::string title;
-};
 
 //
 //  libcurl variables for error strings and returned data
@@ -82,7 +65,7 @@ static int writer(char *data, size_t size, size_t nmemb,
 //  libcurl connection initialization
 //
 
-static bool init(CURL *&conn, char *url)
+static bool init(CURL *&conn,const char *url, std::string& htmlBuff)
 {
   CURLcode code;
 
@@ -127,7 +110,7 @@ static bool init(CURL *&conn, char *url)
     return false;
   }
 
-  code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &buffer);
+  code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &htmlBuff);
   if (code != CURLE_OK)
   {
     fprintf(stderr, "Failed to set write data [%s]\n", errorBuffer);
@@ -138,176 +121,100 @@ static bool init(CURL *&conn, char *url)
   return true;
 }
 
-//
-//  libxml start element callback function
-//
-
-static void StartElement(void *voidContext,
-                         const xmlChar *name,
-                         const xmlChar **attributes)
-{
-  Context *context = (Context *)voidContext;
-
-  if (COMPARE((char *)name, "TITLE"))
-  {
-    context->title = "";
-    context->addTitle = true;
-  }
-  (void) attributes;
-}
-
-//
-//  libxml end element callback function
-//
-
-static void EndElement(void *voidContext,
-                       const xmlChar *name)
-{
-  Context *context = (Context *)voidContext;
-
-  if (COMPARE((char *)name, "TITLE"))
-    context->addTitle = false;
-}
-
-//
-//  Text handling helper function
-//
-
-static void handleCharacters(Context *context,
-                             const xmlChar *chars,
-                             int length)
-{
-  if (context->addTitle)
-    context->title.append((char *)chars, length);
-}
-
-//
-//  libxml PCDATA callback function
-//
-
-static void Characters(void *voidContext,
-                       const xmlChar *chars,
-                       int length)
-{
-  Context *context = (Context *)voidContext;
-
-  handleCharacters(context, chars, length);
-}
-
-//
-//  libxml CDATA callback function
-//
-
-static void cdata(void *voidContext,
-                  const xmlChar *chars,
-                  int length)
-{
-  Context *context = (Context *)voidContext;
-
-  handleCharacters(context, chars, length);
-}
-
-//
-//  libxml SAX callback structure
-//
-
-static htmlSAXHandler saxHandler =
-{
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  StartElement,
-  EndElement,
-  NULL,
-  Characters,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  cdata,
-  NULL
-};
 
 //
 //  Parse given (assumed to be) HTML text and return the title
 //
 
-static void parseHtml(const std::string &html,
-                      std::string &title)
+
+//int main(int argc, char *argv[])
+//{
+//  CURL *conn = NULL;
+//  CURLcode code;
+//  std::string title;
+//
+//  // Ensure one argument is given
+//
+//  if (argc != 2)
+//  {
+//    fprintf(stderr, "Usage: %s <url>\n", argv[0]);
+//
+//    exit(EXIT_FAILURE);
+//  }
+//
+//  curl_global_init(CURL_GLOBAL_DEFAULT);
+//
+//  // Initialize CURL connection
+//
+//  if (!init(conn, argv[1]))
+//  {
+//    fprintf(stderr, "Connection initializion failed\n");
+//
+//    exit(EXIT_FAILURE);
+//  }
+//
+//  // Retrieve content for the URL
+//
+//  code = curl_easy_perform(conn);
+//  curl_easy_cleanup(conn);
+//
+//  if (code != CURLE_OK)
+//  {
+//    fprintf(stderr, "Failed to get '%s' [%s]\n", argv[1], errorBuffer);
+//
+//    exit(EXIT_FAILURE);
+//  }
+//
+//  // Parse the (assumed) HTML code
+//
+//  parseHtml(buffer, title);
+//
+//  // Display the extracted title
+//
+//  printf("Title: %s\n", title.c_str());
+//
+//  return EXIT_SUCCESS;
+//}
+static bool GetHTMLByURL(const std::string& url, std::string& htmlBuffer)
 {
-  htmlParserCtxtPtr ctxt;
-  Context context;
-
-  ctxt = htmlCreatePushParserCtxt(&saxHandler, &context, "", 0, "",
-                                  XML_CHAR_ENCODING_NONE);
-
-  htmlParseChunk(ctxt, html.c_str(), html.size(), 0);
-  htmlParseChunk(ctxt, "", 0, 1);
-
-  htmlFreeParserCtxt(ctxt);
-
-  title = context.title;
-}
-
-int main(int argc, char *argv[])
-{
-  CURL *conn = NULL;
-  CURLcode code;
-  std::string title;
-
-  // Ensure one argument is given
-
-  if (argc != 2)
-  {
-    fprintf(stderr, "Usage: %s <url>\n", argv[0]);
-
-    exit(EXIT_FAILURE);
-  }
-
-  curl_global_init(CURL_GLOBAL_DEFAULT);
-
-  // Initialize CURL connection
-
-  if (!init(conn, argv[1]))
-  {
-    fprintf(stderr, "Connection initializion failed\n");
-
-    exit(EXIT_FAILURE);
-  }
-
-  // Retrieve content for the URL
-
-  code = curl_easy_perform(conn);
-  curl_easy_cleanup(conn);
-
-  if (code != CURLE_OK)
-  {
-    fprintf(stderr, "Failed to get '%s' [%s]\n", argv[1], errorBuffer);
-
-    exit(EXIT_FAILURE);
-  }
-
-  // Parse the (assumed) HTML code
-
-  parseHtml(buffer, title);
-
-  // Display the extracted title
-
-  printf("Title: %s\n", title.c_str());
-
-  return EXIT_SUCCESS;
+    CURL *conn = NULL;
+    CURLcode code;
+    std::string title;
+    
+    // Ensure one argument is given
+    
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    
+    // Initialize CURL connection
+    
+    if (!init(conn, url.c_str(), htmlBuffer))
+    {
+        fprintf(stderr, "Connection initializion failed\n");
+        
+        //exit(EXIT_FAILURE);
+        return false;
+    }
+    
+    // Retrieve content for the URL
+    
+    code = curl_easy_perform(conn);
+    curl_easy_cleanup(conn);
+    
+    if (code != CURLE_OK)
+    {
+        fprintf(stderr, "Failed to get '%s' [%s]\n", url.c_str(), errorBuffer);
+        
+        //exit(EXIT_FAILURE);
+        return false;
+    }
+    
+    // Parse the (assumed) HTML code
+    
+    //parseHtml(buffer, title);
+    
+    // Display the extracted title
+    
+    //printf("Title: %s\n", title.c_str());
+    
+    return true;
 }

@@ -7,7 +7,8 @@
 //
 
 #include "MemriseExportFormater.h"
+const static char delimiter = '|';
 string MemriseExportFormater::GetExportLine(string word, string explanation, string pronunciation)
 {
-    return word + "," + explanation + "," + pronunciation;
+    return word + delimiter + explanation + delimiter + pronunciation;
 }
