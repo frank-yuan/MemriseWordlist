@@ -192,6 +192,14 @@ string CambridgeDictionary::GetExplanations(string word)
         
         parseHtml(htmlBuffer, explanation);
     }
+    // replace word in explanation with *
+    size_t found;
+    found = explanation.find(word);
+    while (found!=string::npos){
+        explanation.replace(found, word.length(), "****");
+        found = explanation.find(word);
+    };
+    
     return explanation;
 }
 string CambridgeDictionary::GetPronunciation(string word)
