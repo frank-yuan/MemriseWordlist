@@ -20,29 +20,36 @@
 //
 //  libxml callback context structure
 //
-
+enum ParseType
+{
+    PT_EXPLANATION,
+    PT_PRONUNCIATION
+};
 struct Context
 {
-    Context():
+    Context(ParseType ptype):
         isInSpan(false),
         spanLevel(0),
         index(0),
-        stringVal("")
+        stringVal(""),
+        type(ptype)
     { }
     int     spanLevel;
     bool isInSpan;
     int  index;
     std::string stringVal;
+    ParseType type;
 };
 //
 //  libxml start element callback function
 //
 
 static const string KEY = "class";
-static const string VALUE = "def";
+static const string EXPVALUE = "def";
+static const string PRONVALUE = "pron";
 
 
-static void StartExplanationElement(void *voidContext,
+static void StartElement(void *voidContext,
                          const xmlChar *name,
                          const xmlChar **attributes)
 {
@@ -56,11 +63,12 @@ static void StartExplanationElement(void *voidContext,
         }
         else if (attributes)
         {
+            std::string targetValue = context->type == PT_PRONUNCIATION? PRONVALUE : EXPVALUE;
             std::string key, value;
             while (NULL != attributes && NULL != attributes[0]) {
                 key = (const char*)attributes[0];
                 value = (const char*)attributes[1];
-                if (!key.compare(KEY) && !value.compare(VALUE))
+                if (!key.compare(KEY) && !value.compare(targetValue))
                 {
                     context->spanLevel = 1;
                 }
@@ -76,7 +84,7 @@ static void StartExplanationElement(void *voidContext,
 //  libxml end element callback function
 //
 
-static void EndExplanationElement(void *voidContext,
+static void EndElement(void *voidContext,
                        const xmlChar *name)
 {
     Context *context = (Context *)voidContext;
@@ -103,7 +111,7 @@ static void EndExplanationElement(void *voidContext,
 //  libxml PCDATA callback function
 //
 
-static void ExplanationCharacters(void *voidContext,
+static void Characters(void *voidContext,
                        const xmlChar *chars,
                        int length)
 {
@@ -117,21 +125,21 @@ static void ExplanationCharacters(void *voidContext,
 //  libxml CDATA callback function
 //
 
-static void cdata(void *voidContext,
-                  const xmlChar *chars,
-                  int length)
-{
-    Context *context = (Context *)voidContext;
-    
-    if (context->spanLevel > 0)
-        context->stringVal.append((char *)chars, length);
-}
+//static void cdata(void *voidContext,
+//                  const xmlChar *chars,
+//                  int length)
+//{
+//    Context *context = (Context *)voidContext;
+//    
+//    if (context->spanLevel > 0)
+//        context->stringVal.append((char *)chars, length);
+//}
 
 //
 //  libxml SAX callback structure
 //
 
-static htmlSAXHandler saxExplanationHandler =
+static htmlSAXHandler saxHandler =
 {
     NULL,
     NULL,
@@ -147,27 +155,27 @@ static htmlSAXHandler saxExplanationHandler =
     NULL,
     NULL,
     NULL,
-    StartExplanationElement,
-    EndExplanationElement,
+    StartElement,
+    EndElement,
     NULL,
-    ExplanationCharacters,
-    NULL,
-    NULL,
+    Characters,
     NULL,
     NULL,
     NULL,
     NULL,
     NULL,
-    cdata,
+    NULL,
+    NULL,
+    Characters,
     NULL
 };
 
 static void parseHtml(const std::string &html,
                       std::string &stringVal,
-                      htmlSAXHandler& saxHandler)
+                      ParseType type)
 {
     htmlParserCtxtPtr ctxt;
-    Context context;
+    Context context(type);
     
     ctxt = htmlCreatePushParserCtxt(&saxHandler, &context, "", 0, "",
                                     XML_CHAR_ENCODING_NONE);
@@ -189,7 +197,7 @@ string CambridgeDictionary::GetExplanations()
     {
         return "";
     }
-    parseHtml(m_queryResult, explanation, saxExplanationHandler);
+    parseHtml(m_queryResult, explanation, PT_EXPLANATION);
 
     // replace word in explanation with *
     size_t found;
@@ -203,5 +211,13 @@ string CambridgeDictionary::GetExplanations()
 }
 string CambridgeDictionary::GetPronunciation()
 {
-    return "pronunciation";
+    
+    std::string pron;
+    
+    if (m_queryResult.length() <= 0)
+    {
+        return "";
+    }
+    parseHtml(m_queryResult, pron, PT_PRONUNCIATION);
+    return pron;
 }

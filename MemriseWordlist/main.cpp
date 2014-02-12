@@ -77,7 +77,7 @@ int main(int argc, const char * argv[])
             string explanation = dic->GetExplanations();
             if (explanation.length() > 0)
             {
-                ofile << formatExporter->GetExportLine(strLine, explanation) << std::endl;
+                ofile << formatExporter->GetExportLine(strLine, explanation, dic->GetPronunciation()) << std::endl;
                 fprintf(stdout, "[SUCCESS!]\n");
             }
             else
