@@ -11,6 +11,7 @@
 bool BaseDictionary::Query(string word)
 {
     m_word = word;
+    m_queryResult = "";
     if (m_word.length() == 0 || GetURL().length() == 0)
         return false;
     std::string htmlBuffer;
