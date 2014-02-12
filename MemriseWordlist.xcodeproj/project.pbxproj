@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC20246B18AB22D90074F17C /* BaseDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC20246918AB22D90074F17C /* BaseDictionary.cpp */; };
 		AC4E939118A07F7B0045FE18 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4E939018A07F7B0045FE18 /* libcurl.4.dylib */; };
 		AC4E939618A12E700045FE18 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC4E939418A12E700045FE18 /* Util.cpp */; };
 		AC6D4012189E80CC00E9887F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6D4011189E80CC00E9887F /* main.cpp */; };
@@ -28,6 +29,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AC20246918AB22D90074F17C /* BaseDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseDictionary.cpp; sourceTree = "<group>"; };
+		AC20246A18AB22D90074F17C /* BaseDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDictionary.h; sourceTree = "<group>"; };
 		AC4E939018A07F7B0045FE18 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = usr/lib/libcurl.4.dylib; sourceTree = SDKROOT; };
 		AC4E939418A12E700045FE18 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
 		AC4E939518A12E700045FE18 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
@@ -87,6 +90,8 @@
 				ACCC3FCE189FE347009EF2BD /* CambridgeDictionary.h */,
 				ACCC3FD0189FE4EC009EF2BD /* MemriseExportFormater.cpp */,
 				ACCC3FD1189FE4EC009EF2BD /* MemriseExportFormater.h */,
+				AC20246918AB22D90074F17C /* BaseDictionary.cpp */,
+				AC20246A18AB22D90074F17C /* BaseDictionary.h */,
 			);
 			path = MemriseWordlist;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				ACCC3FCF189FE347009EF2BD /* CambridgeDictionary.cpp in Sources */,
 				ACCC3FD2189FE4EC009EF2BD /* MemriseExportFormater.cpp in Sources */,
 				AC6D4012189E80CC00E9887F /* main.cpp in Sources */,
+				AC20246B18AB22D90074F17C /* BaseDictionary.cpp in Sources */,
 				AC4E939618A12E700045FE18 /* Util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -18,8 +18,9 @@ class IDictionary
 public:
     IDictionary(){};
     virtual ~IDictionary(){};
-    virtual string GetExplanations(string word) = 0;
-    virtual string GetPronunciation(string word) = 0;
+    virtual bool   Query(string word) = 0;
+    virtual string GetExplanations() = 0;
+    virtual string GetPronunciation() = 0;
 };
 
 #endif

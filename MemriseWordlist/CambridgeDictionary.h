@@ -10,15 +10,19 @@
 #define __MemriseWordlist__CambridgeDictionary__
 
 #include <iostream>
-#include "IDictionary.h"
+#include "BaseDictionary.h"
 
 using namespace std;
 
-class CambridgeDictionary : public IDictionary
+class CambridgeDictionary : public BaseDictionary
 {
+protected:
+    virtual string GetURLDelimiter(){return "+";};
+    virtual string GetURL(){return "dictionary.cambridge.org/search/british/direct/?q=";}
 public:
-    virtual string GetExplanations(string word);
-    virtual string GetPronunciation(string word);
+
+    virtual string GetExplanations();
+    virtual string GetPronunciation();
 
 };
 #endif /* defined(__MemriseWordlist__CambridgeDictionary__) */

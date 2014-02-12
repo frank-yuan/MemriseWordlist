@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
-#include <libxml2/libxml/xpath.h>
+#include <libxml/xpath.h>
 #include "ezOptionParser.hpp"
 #include "MemriseExportFormater.h"
 #include "CambridgeDictionary.h"
@@ -73,7 +73,8 @@ int main(int argc, const char * argv[])
         {
             strLine = rtrim(strLine);
             fprintf(stdout, "[%d/%d]%s..........", ++i, line_count, strLine.c_str());
-            string explanation = dic->GetExplanations(strLine);
+            dic->Query(strLine);
+            string explanation = dic->GetExplanations();
             if (explanation.length() > 0)
             {
                 ofile << formatExporter->GetExportLine(strLine, explanation) << std::endl;

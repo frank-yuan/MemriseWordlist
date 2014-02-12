@@ -42,7 +42,7 @@ static const string KEY = "class";
 static const string VALUE = "def";
 
 
-static void StartElement(void *voidContext,
+static void StartExplanationElement(void *voidContext,
                          const xmlChar *name,
                          const xmlChar **attributes)
 {
@@ -76,7 +76,7 @@ static void StartElement(void *voidContext,
 //  libxml end element callback function
 //
 
-static void EndElement(void *voidContext,
+static void EndExplanationElement(void *voidContext,
                        const xmlChar *name)
 {
     Context *context = (Context *)voidContext;
@@ -91,25 +91,26 @@ static void EndElement(void *voidContext,
 //  Text handling helper function
 //
 
-static void handleCharacters(Context *context,
-                             const xmlChar *chars,
-                             int length)
-{
-    if (context->spanLevel > 0)
-        context->stringVal.append((char *)chars, length);
-}
+//static void handleCharacters(Context *context,
+//                             const xmlChar *chars,
+//                             int length)
+//{
+//    if (context->spanLevel > 0)
+//        context->stringVal.append((char *)chars, length);
+//}
 
 //
 //  libxml PCDATA callback function
 //
 
-static void Characters(void *voidContext,
+static void ExplanationCharacters(void *voidContext,
                        const xmlChar *chars,
                        int length)
 {
     Context *context = (Context *)voidContext;
-    
-    handleCharacters(context, chars, length);
+    if (context->spanLevel > 0)
+        context->stringVal.append((char *)chars, length);
+//    handleCharacters(context, chars, length);
 }
 
 //
@@ -122,14 +123,15 @@ static void cdata(void *voidContext,
 {
     Context *context = (Context *)voidContext;
     
-    handleCharacters(context, chars, length);
+    if (context->spanLevel > 0)
+        context->stringVal.append((char *)chars, length);
 }
 
 //
 //  libxml SAX callback structure
 //
 
-static htmlSAXHandler saxHandler =
+static htmlSAXHandler saxExplanationHandler =
 {
     NULL,
     NULL,
@@ -145,10 +147,10 @@ static htmlSAXHandler saxHandler =
     NULL,
     NULL,
     NULL,
-    StartElement,
-    EndElement,
+    StartExplanationElement,
+    EndExplanationElement,
     NULL,
-    Characters,
+    ExplanationCharacters,
     NULL,
     NULL,
     NULL,
@@ -161,7 +163,8 @@ static htmlSAXHandler saxHandler =
 };
 
 static void parseHtml(const std::string &html,
-                      std::string &stringVal)
+                      std::string &stringVal,
+                      htmlSAXHandler& saxHandler)
 {
     htmlParserCtxtPtr ctxt;
     Context context;
@@ -177,32 +180,28 @@ static void parseHtml(const std::string &html,
     stringVal = context.stringVal;
 }
 
-
-string CambridgeDictionary::GetExplanations(string word)
+string CambridgeDictionary::GetExplanations()
 {
-    std::string htmlBuffer;
+
     std::string explanation;
-    
-    std::replace_if(word.begin() , word.end() ,
-                    [] (const char& c) { return std::isspace(c) ;},'+');
-    std::string url("dictionary.cambridge.org/search/british/direct/?q=");
-    url += word;
-    if (GetHTMLByURL(url, htmlBuffer))
+ 
+    if (m_queryResult.length() <= 0)
     {
-        
-        parseHtml(htmlBuffer, explanation);
+        return "";
     }
+    parseHtml(m_queryResult, explanation, saxExplanationHandler);
+
     // replace word in explanation with *
     size_t found;
-    found = explanation.find(word);
+    found = explanation.find(m_word);
     while (found!=string::npos){
-        explanation.replace(found, word.length(), "****");
-        found = explanation.find(word);
+        explanation.replace(found, m_word.length(), "****");
+        found = explanation.find(m_word);
     };
     
     return explanation;
 }
-string CambridgeDictionary::GetPronunciation(string word)
+string CambridgeDictionary::GetPronunciation()
 {
     return "pronunciation";
 }
